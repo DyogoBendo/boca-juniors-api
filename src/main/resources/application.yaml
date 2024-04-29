@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/boca
+    username: boca
+    password: boca2024
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update # Set to "create" for development, "update" for production, or "none" for no changes
+      show-sql: true # Set to true to enable SQL logging for debugging
