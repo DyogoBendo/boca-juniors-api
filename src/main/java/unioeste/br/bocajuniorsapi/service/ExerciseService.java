@@ -26,6 +26,7 @@ public class ExerciseService {
     }
 
     public Exercise findById(Long id){
+        if (id == null) return null;
         return exerciseRepository.findById(id).orElse(null);
     }
 

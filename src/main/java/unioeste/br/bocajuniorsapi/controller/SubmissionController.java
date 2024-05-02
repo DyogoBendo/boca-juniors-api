@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unioeste.br.bocajuniorsapi.domain.Exercise;
 import unioeste.br.bocajuniorsapi.domain.Submission;
+import unioeste.br.bocajuniorsapi.dto.SubmissionFilterDTO;
 import unioeste.br.bocajuniorsapi.dto.SubmissionFormDTO;
 import unioeste.br.bocajuniorsapi.service.ExerciseService;
 import unioeste.br.bocajuniorsapi.service.SubmissionService;
@@ -24,8 +25,9 @@ public class SubmissionController {
     private ExerciseService exerciseService;
 
     @GetMapping
-    public ResponseEntity<List<Submission>> list(){
-        List<Submission> submissions = submissionService.list();
+    public ResponseEntity<List<Submission>> list(SubmissionFilterDTO form){
+        Exercise exercise = exerciseService.findById(form.getExerciseId());
+        List<Submission> submissions = submissionService.filter(form, exercise);
 
         return ResponseEntity.ok(submissions);
     }
