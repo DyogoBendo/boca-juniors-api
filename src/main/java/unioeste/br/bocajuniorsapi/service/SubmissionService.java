@@ -14,6 +14,7 @@ import unioeste.br.bocajuniorsapi.repository.SubmissionRepository;
 import unioeste.br.bocajuniorsapi.specification.SubmissionSpecification;
 import unioeste.br.bocajuniorsapi.utils.SearchCriteria;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
@@ -60,8 +61,18 @@ public class SubmissionService {
     public Specification<Submission> generateAllSpecification(SubmissionFilterDTO submissionFilterDTO, Exercise exercise){
         Specification<Submission> usernameSpecification = generateSpecification(submissionFilterDTO.getUsername(), "username");
         Specification<Submission> exerciseSpecification = generateSpecification(exercise, "exercise");
-        Specification<Submission> acceptedSpecification = generateSpecification(submissionFilterDTO.isAccepted(), "accepted");
+        Specification<Submission> acceptedSpecification = generateSpecification(submissionFilterDTO.getAccepted(), "accepted");
         return Specification.where(usernameSpecification).and(exerciseSpecification).and(acceptedSpecification);
+    }
+    public List<Submission> findSubmissionsByExerciseList(List<Exercise> exerciseList){
+        List<Submission> submissions = new ArrayList<>();
+
+        for (Exercise exercise : exerciseList){
+            List<Submission> exerciseSubmissions = filter(new SubmissionFilterDTO(), exercise);
+            submissions.addAll(exerciseSubmissions);
+        }
+
+        return submissions;
     }
 
 }

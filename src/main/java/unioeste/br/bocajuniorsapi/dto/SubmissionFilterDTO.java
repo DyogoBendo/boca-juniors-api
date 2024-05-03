@@ -11,5 +11,5 @@ public class
 SubmissionFilterDTO {
     private Long exerciseId;
     private String username;
-    private boolean accepted;
+    private Boolean accepted;
 }

@@ -2,11 +2,15 @@ package unioeste.br.bocajuniorsapi.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import unioeste.br.bocajuniorsapi.domain.Submission;
 import unioeste.br.bocajuniorsapi.domain.User;
 import unioeste.br.bocajuniorsapi.dto.UserLoggedDTO;
 import unioeste.br.bocajuniorsapi.repository.UserRepository;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -60,4 +64,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public List<String> findUsernamesBySubmission(List<Submission> submissionList){
+        Set<String> usernameSet = new HashSet<>();
+
+        for (Submission submission : submissionList){
+            usernameSet.add(submission.getUsername());
+        }
+        return usernameSet.stream().toList();
+    }
 }

@@ -1,14 +1,11 @@
 package unioeste.br.bocajuniorsapi.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
-@Entity
+@Entity @ToString
 public class Submission {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,5 +17,5 @@ public class Submission {
 
     @Lob
     private String sourceCode;
-    private boolean accepted;
+    private Boolean accepted;
 }
