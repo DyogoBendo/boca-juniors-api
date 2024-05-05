@@ -17,5 +17,11 @@ public class Submission {
 
     @Lob
     private String sourceCode;
-    private Boolean accepted;
+    private Double timeLimit;
+    private Integer memoryLimit;
+    private Integer sizeLimit;
+    private String language;
+
+    @Enumerated(EnumType.STRING)
+    private SubmissionStatus status;
 }

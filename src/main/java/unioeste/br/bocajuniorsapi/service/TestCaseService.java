@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import unioeste.br.bocajuniorsapi.domain.Exercise;
 import unioeste.br.bocajuniorsapi.domain.TestCase;
 import unioeste.br.bocajuniorsapi.dto.ExampleDTO;
+import unioeste.br.bocajuniorsapi.dto.TestCaseDTO;
 import unioeste.br.bocajuniorsapi.dto.TestCaseFormDTO;
 import unioeste.br.bocajuniorsapi.repository.TestCaseRepository;
 
@@ -31,7 +32,7 @@ public class TestCaseService {
 
     public List<TestCase> convert(List<TestCaseFormDTO> formList, Exercise exercise){
         if (formList == null) return new ArrayList<>();
-        return formList.stream().map(form -> convert(form, exercise)).toList();
+        return formList.stream().map(form -> convert(form, exercise)).filter(testCase -> !(testCase.getInput().isEmpty() || testCase.getOutput().isEmpty())).toList();
     }
 
     public void save(List<TestCase> testCaseList){
@@ -44,7 +45,23 @@ public class TestCaseService {
         return testCaseRepository.findByExerciseAndExample(exercise, true);
     }
 
-    public ExampleDTO convert(TestCase testCase){
+    @Transactional
+    public List<TestCase> findByExercise(Exercise exercise){
+        return testCaseRepository.findByExercise(exercise);
+    }
+
+    public TestCaseDTO convert(TestCase testCase){
+        TestCaseDTO testCaseDTO = new TestCaseDTO();
+
+        testCaseDTO.setId(testCase.getId());
+        testCaseDTO.setInput(testCase.getInput());
+        testCaseDTO.setOutput(testCase.getOutput());
+        testCaseDTO.setExample(testCaseDTO.isExample());
+
+        return testCaseDTO;
+    }
+
+    public ExampleDTO convertToExample(TestCase testCase){
         ExampleDTO exampleDTO = new ExampleDTO();
 
         exampleDTO.setInput(testCase.getInput());
@@ -53,7 +70,15 @@ public class TestCaseService {
         return exampleDTO;
     }
 
-    public List<ExampleDTO> convert(List<TestCase> testCaseList){
+    public List<ExampleDTO> convertToExercise(List<TestCase> testCaseList){
+        return testCaseList.stream().map(this::convertToExample).toList();
+    }
+
+    public List<TestCaseDTO> convert(List<TestCase> testCaseList){
         return testCaseList.stream().map(this::convert).toList();
+    }
+
+    public void delete(List<TestCase> testCaseList){
+        testCaseRepository.deleteAll(testCaseList);
     }
 }

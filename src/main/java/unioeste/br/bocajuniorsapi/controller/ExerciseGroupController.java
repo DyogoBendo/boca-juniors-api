@@ -53,6 +53,25 @@ public class ExerciseGroupController {
         return ResponseEntity.ok(exercisesGroup);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody ExerciseGroupFormDTO form){
+        ExercisesGroup exercisesGroup = exerciseGroupService.findById(id);
+        List<Exercise> exerciseList = exerciseService.findById(form.getExerciseIdList());
+        exerciseGroupService.convert(exercisesGroup, form, exerciseList);
+
+        exerciseGroupService.save(exercisesGroup);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        ExercisesGroup exercisesGroup = exerciseGroupService.findById(id);
+        exerciseGroupService.delete(exercisesGroup);
+
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{id}/users-submissions")
     public ResponseEntity<UserSubmissionFromExerciseGroupDTO> listUserSubmissions(@PathVariable Long id){
         ExercisesGroup exercisesGroup = exerciseGroupService.findById(id);

@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 import unioeste.br.bocajuniorsapi.domain.Exercise;
-import unioeste.br.bocajuniorsapi.dto.ExampleDTO;
-import unioeste.br.bocajuniorsapi.dto.ExerciseFormDTO;
-import unioeste.br.bocajuniorsapi.dto.ExerciseWithExamplesDTO;
+import unioeste.br.bocajuniorsapi.dto.*;
 import unioeste.br.bocajuniorsapi.repository.ExerciseRepository;
 
 import java.util.ArrayList;
@@ -59,5 +57,22 @@ public class ExerciseService {
         exerciseWithExamplesDTO.setDifficulty(exercise.getDifficulty());
 
         return exerciseWithExamplesDTO;
+    }
+
+    public ExerciseWithTestCasesDTO convertToTestCase(Exercise exercise, List<TestCaseDTO> testCaseDTOList){
+        ExerciseWithTestCasesDTO exerciseWithTestCasesDTO = new ExerciseWithTestCasesDTO();
+        exerciseWithTestCasesDTO.setTestCases(testCaseDTOList);
+        exerciseWithTestCasesDTO.setDescription(exercise.getDescription());
+        exerciseWithTestCasesDTO.setTag(exercise.getTag());
+        exerciseWithTestCasesDTO.setTitle(exercise.getTitle());
+        exerciseWithTestCasesDTO.setDifficulty(exercise.getDifficulty());
+        exerciseWithTestCasesDTO.setSourceCode(exercise.getSourceCode());
+
+        return exerciseWithTestCasesDTO;
+    }
+
+
+    public void delete(Exercise exercise){
+        exerciseRepository.delete(exercise);
     }
 }
