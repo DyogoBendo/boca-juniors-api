@@ -52,10 +52,10 @@ public class SubmissionService {
         submission.setSourceCode(form.getSourceCode());
         submission.setExercise(exercise);
         submission.setUsername(form.getUsername());
-        submission.setTimeLimit(1000000d);
+        submission.setTimeLimit(10d);
         submission.setLanguage("C++");
-        submission.setMemoryLimit(1000000);
-        submission.setSizeLimit(1000000);
+        submission.setMemoryLimit(10000);
+        submission.setSizeLimit(10000);
 
         return submission;
     }
